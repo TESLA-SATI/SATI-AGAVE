@@ -1,0 +1,83 @@
+import hashlib
+import time
+import random
+
+class HybridConsensus:
+    def __init__(self):
+        self.chain = []
+        self.stakeholders = {}
+        self.history = []
+
+    def proof_of_work(self, previous_hash, difficulty=4):
+        nonce = 0
+        while True:
+            block_data = f"{previous_hash}{nonce}".encode()
+            block_hash = hashlib.sha256(block_data).hexdigest()
+            if block_hash[:difficulty] == "0" * difficulty:
+                return nonce, block_hash
+            nonce += 1
+
+    def proof_of_stake(self):
+        total_stake = sum(self.stakeholders.values())
+        if total_stake == 0:
+            raise ValueError("No stakeholders with stakes available.")
+        pick = random.uniform(0, total_stake)
+        current = 0
+        for stakeholder, stake in self.stakeholders.items():
+            current += stake
+            if current > pick:
+                return stakeholder
+
+    def proof_of_history(self, timestamp):
+        history_hash = hashlib.sha256(str(timestamp).encode()).hexdigest()
+        self.history.append(history_hash)
+        return history_hash
+
+    def add_block(self, data):
+        previous_hash = self.chain[-1]['hash'] if self.chain else "0" * 64
+        timestamp = time.time()
+
+        # Proof of Work
+        nonce, pow_hash = self.proof_of_work(previous_hash)
+
+        # Proof of Stake
+        validator = self.proof_of_stake()
+
+        # Proof of History
+        poh_hash = self.proof_of_history(timestamp)
+
+        block = {
+            "index": len(self.chain) + 1,
+            "timestamp": timestamp,
+            "data": data,
+            "previous_hash": previous_hash,
+            "nonce": nonce,
+            "pow_hash": pow_hash,
+            "validator": validator,
+            "poh_hash": poh_hash
+        }
+        self.chain.append(block)
+        return block
+
+    def add_stakeholder(self, stakeholder, stake):
+        if stakeholder in self.stakeholders:
+            self.stakeholders[stakeholder] += stake
+        else:
+            self.stakeholders[stakeholder] = stake
+
+# Example usage
+if __name__ == "__main__":
+    consensus = HybridConsensus()
+
+    # Add stakeholders
+    consensus.add_stakeholder("Alice", 50)
+    consensus.add_stakeholder("Bob", 30)
+    consensus.add_stakeholder("Charlie", 20)
+
+    # Add blocks
+    block1 = consensus.add_block("Block 1 Data")
+    block2 = consensus.add_block("Block 2 Data")
+
+    print("Blockchain:")
+    for block in consensus.chain:
+        print(block)
