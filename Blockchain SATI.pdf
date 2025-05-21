@@ -7,6 +7,4 @@ response = requests.get(https://drive.google.com/file/d/1A_OmwboWM67sbz-GD1fmHvp
 
 try:
     reader = PdfReader(BytesIO(response.content))
-    print("Valid PDF. Number of pages:", len(reader.pages))
-except Exception as e:
-    print("Invalid PDF or cannot be read:", e)
+    print("Valid PDF. 11:", len(reader.pages))
