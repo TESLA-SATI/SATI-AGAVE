@@ -1,12 +1,12 @@
 import requests
+from PyPDF2 import PdfReader
+from io import BytesIO
 
-# Raw file URL for direct access
 url = "https://github.com/TESLA-SATI/Blockchain-SATI/raw/SATI/33/Blockchain%20SATI.pdf"
-
 response = requests.get(url)
 
-if response.status_code == 200:
-    # Save the PDF locally
-    with open("Blockchain_SATI.pdf", "wb") as f:
-        f.write(response.content)
-    print("Download successful!")
+try:
+    reader = PdfReader(BytesIO(response.content))
+    print("Valid PDF. 11:", len(reader.pages))
+except Exception as e:
+    print("Invalid PDF or cannot be read:", e)
