@@ -1,1 +1,14 @@
-https://drive.google.com/file/d/1A_OmwboWM67sbz-GD1fmHvpfWQdoAnzi/view?usp=sharing
+import requests
+
+# Raw file URL for direct access
+url = "https://github.com/TESLA-SATI/Blockchain-SATI/raw/SATI/33/Blockchain%20SATI.pdf"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    # Save the PDF locally
+    with open("Blockchain_SATI.pdf", "wb") as f:
+        f.write(response.content)
+    print("Download successful!")
+else:
+    print(f"Failed to download PDF. Status code: {response.status_code}")
