@@ -1,1 +1,10 @@
-https://drive.google.com/file/d/1A_OmwboWM67sbz-GD1fmHvpfWQdoAnzi/view?usp=sharing
+import requests
+from PyPDF2 import PdfReader
+from io import BytesIO
+
+url = "https://drive.google.com/file/d/1A_OmwboWM67sbz-GD1fmHvpfWQdoAnzi/view?usp=sharing"
+response = requests.get(url)
+
+try:
+    reader = PdfReader(BytesIO(response.content))
+    print("Valid PDF. 11:", len(reader.pages)
