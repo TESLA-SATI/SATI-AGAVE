@@ -7,6 +7,4 @@ response = requests.get(url)
 
 try:
     reader = PdfReader(BytesIO(response.content))
-    print("Valid PDF. 11:", len(reader.pages))
-except Exception as e:
-    print("Invalid PDF or cannot be read:", e)
+    print("Valid PDF. 11:", len(reader.pages)
