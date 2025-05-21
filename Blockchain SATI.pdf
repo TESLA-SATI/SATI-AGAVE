@@ -10,5 +10,3 @@ if response.status_code == 200:
     with open("Blockchain_SATI.pdf", "wb") as f:
         f.write(response.content)
     print("Download successful!")
-else:
-    print(f"Failed to download PDF. Status code: {response.status_code}")
