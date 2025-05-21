@@ -1,10 +1,1 @@
-import requests
-from PyPDF2 import PdfReader
-from io import BytesIO
-
-url = "https://github.com/TESLA-SATI/Blockchain-SATI/raw/SATI/33/Blockchain%20SATI.pdf"
-response = requests.get(url)
-
-try:
-    reader = PdfReader(BytesIO(response.content))
-    print("Valid PDF. 11:", len(reader.pages)
+https://drive.google.com/file/d/1A_OmwboWM67sbz-GD1fmHvpfWQdoAnzi/view?usp=sharing
